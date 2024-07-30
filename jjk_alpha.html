@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&family=Merriweather&display=swap');
+
+        input, textarea, select {
+            background-color: #333333 !important; /* Темный фон для полей ввода */
+            color: #ffffff !important; /* Светлый цвет текста для полей ввода */
+            border: 1px solid #444444 !important; /* Цвет границы для полей ввода */
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #888888 !important; /* Цвет текста-заполнителя */
+        }
+
+
+        input:focus, textarea:focus, select:focus {
+            border-color: #444444;
+            background-color: #333333;
+        }
+
+
+        body {
+            background-color: #121212 !important;;
+            color: #ffffff;
+            font-family: 'Comic Sans MS', 'Merriweather', sans-serif;
+        }
+
+        header, footer {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        nav a {
+            color: #ffffff;
+        }
+
+        .container {
+            background-color: #1e1e1e !important;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+
+         h2, h3, h4, h5, h6 {
+            color: #b3b3b3;
+            font-family: 'Merriweather', sans-serif;
+        }
+
+        h1 {
+            color: #b3b3b3;
+            font-family: 'Merriweather', sans-serif;
+        }
+        label {
+            color: #b3b3b3;
+        }
+
+        input, textarea, select {
+            background-color: #333333;
+            color: #ffffff;
+            border: 1px solid #444444;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #888888;
+        }
+
+        button {
+            background-color: #444444;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: 'Comic Sans MS', sans-serif;
+        }
+
+        button:hover {
+            background-color: #555555;
+        }
+
+        .navbar {
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .navbar-nav .nav-link {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #555;
+            transition: color 0.2s;
+            font-family: 'Comic Sans MS', sans-serif; /* Comic Sans MS for nav links */
+        }
+        .navbar-nav .nav-link:hover {
+            color: #000;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            background-color: #454c5e;
+            border-color: #454c5e;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+        }
+        button[type="submit"]:hover {
+            background-color: #22252f;
+            border-color: #22252f;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ccc;
+        }
+        #character-art-preview {
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        #character-art-preview:hover {
+            transform: scale(1.05);
+        }
+        #character-art-upload {
+            display: none;
+        }
+
+        .form-group label {
+            margin-right: 10px;
+        }
+
+        .editable-input {
+            margin-bottom: 5px;
+        }
+
+        #character-rt-preview {
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        #character-rt-preview:hover {
+            transform: scale(1.05);
+        }
+        #character-rt-upload {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="text-center my-4">
+        <h1>ДОСЬЕ НА ИМЯ ПЕРСОНАЖА</h1>
+        <blockquote class="blockquote">
+            <p id="quote" class="mb-0" onclick="editField('quote')">“Вставьте цитату”</p>
+            <input id="quoteInput" type="text" class="form-control d-none editable-input" value="Вставьте цитату">
+        </blockquote>
+        <img id="character-art-preview" src="path_to_image.jpg" alt="Character Art" class="img-fluid mb-3">
+        <input type="file" class="form-control-file" id="character-art-upload" accept="image/*">
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #1f2021;">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="#profile" style="color: #b0b0b0;">ПРОФИЛЬ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#personality" style="color: #b0b0b0;">ЛИЧНОСТЬ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#appearance" style="color: #b0b0b0;">ВНЕШНОСТЬ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#techniques" style="color: #b0b0b0;">ПРОКЛЯТЬЯ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#background" style="color: #b0b0b0;">ПРЕДЫСТОРИЯ</a></li>
+                <li class="nav-item"><a class="nav-link" href="#relationships" style="color: #b0b0b0;">ОТНОШЕНИЯ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <form id="character-form">
+        <section id="profile" class="mb-4">
+            <h2>01 | ПРОФИЛЬ</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group d-flex align-items-center">
+                        <label for="name" class="mr-1"><strong>Имя:</strong></label>
+                        <span id="name" onclick="editField('name')">Введите имя</span>
+                        <input id="nameInput" type="text" class="form-control d-none editable-input" value="Введите имя">
+                    </div>
+                    <div class="form-group d-flex align-items-center">
+                        <label for="age" class="mr-1"><strong>Возраст:</strong></label>
+                        <span id="age" onclick="editField('age')">Введите возраст</span>
+                        <input id="ageInput" type="text" class="form-control d-none editable-input" value="Введите возраст">
+                    </div>
+                    <div class="form-group">
+                        <label for="hobby"><strong>Хобби:</strong></label>
+                        <span id="hobby" onclick="editField('hobby')">Введите хобби</span>
+                        <input id="hobbyInput" type="text" class="form-control d-none editable-input" value="Введите хобби">
+                    </div>
+                    <div class="form-group">
+                        <label for="nickname"><strong>Псевдоним:</strong></label>
+                        <span id="nickname" onclick="editField('nickname')">Введите псевдоним</span>
+                        <input id="nicknameInput" type="text" class="form-control d-none editable-input" value="Введите псевдоним">
+                    </div>
+                    <div class="likes">
+                        <label for="like" class="mr-1"><strong>Вкусы:</strong></label>
+                        <span id="like" onclick="editField('like')">Вставьте сюда
+сексуальный
+вкус вашего
+персонажа
+(внешность
+других)</span>
+                        <input id="likeInput" type="text" class="form-control d-none editable-input" value="Введите вкусы персонажа">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="appearance-age"><strong>На сколько выглядит:</strong></label>
+                        <span id="appearance-age" onclick="editField('appearance-age')">Введите возраст</span>
+                        <input id="appearance-ageInput" type="text" class="form-control d-none editable-input" value="Введите возраст">
+                    </div>
+                    <div class="form-group">
+                        <label for="rank"><strong>Ранг:</strong></label>
+                        <span id="rank" onclick="editField('rank')">Введите ранг</span>
+                        <input id="rankInput" type="text" class="form-control d-none editable-input" value="Введите ранг">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender"><strong>Пол:</strong></label>
+                        <span id="gender" onclick="editField('gender')">Введите пол</span>
+                        <input id="genderInput" type="text" class="form-control d-none editable-input" value="Введите пол">
+                    </div>
+                    <div class="form-group">
+                        <label for="birthdate"><strong>Дата рождения:</strong></label>
+                        <span id="birthdate" onclick="editField('birthdate')">Введите дату рождения</span>
+                        <input id="birthdateInput" type="text" class="form-control d-none editable-input" value="Введите дату рождения">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="personality" class="mb-4">
+            <h2>02 | ЛИЧНОСТЬ</h2>
+            <div class="form-group">
+                <label for="character"><strong>Характер:</strong></label>
+                <span id="character" onclick="editField('character')">Введите характер (минимум 500
+символов)
+</span>
+                <textarea id="characterInput" class="form-control d-none editable-input" rows="4">Введите характер</textarea>
+            </div>
+            <div class="form-group">
+                <label for="preferences"><strong>Предпочтения:</strong></label>
+                <span id="preferences" onclick="editField('preferences')">Введите предпочтения (нравится/ не
+нравится и т.д)
+</span>
+                <textarea id="preferencesInput" class="form-control d-none editable-input" rows="4">Введите предпочтения</textarea>
+            </div>
+            <div class="form-group">
+                <label for="fears"><strong>Страхи:</strong></label>
+                <span id="fears" onclick="editField('fears')">Введите страхи</span>
+                <textarea id="fearsInput" class="form-control d-none editable-input" rows="4">Введите страхи</textarea>
+            </div>
+        </section>
+
+        <section id="appearance" class="mb-4">
+            <h2>03 | ВНЕШНОСТЬ</h2>
+            <div class="form-group">
+                <label for="height-weight"><strong>Рост/Вес:</strong></label>
+                <span id="height-weight" onclick="editField('height-weight')">Введите рост и вес</span>
+                <input id="height-weightInput" type="text" class="form-control d-none editable-input" value="Введите рост и вес">
+            </div>
+            <div class="form-group">
+                <label for="body-type"><strong>Телосложение:</strong></label>
+                <span id="body-type" onclick="editField('body-type')">Введите телосложение</span>
+                <input id="body-typeInput" type="text" class="form-control d-none editable-input" value="Введите телосложение">
+            </div>
+            <div class="form-group">
+                <label for="art-details"><strong>Детали вне арта:</strong></label>
+                <span id="art-details" onclick="editField('art-details')">Введите детали</span>
+                <textarea id="art-detailsInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+        </section>
+
+        <section id="techniques" class="mb-4">
+            <h2>04 | ПРОКЛЯТАЯ ТЕХНИКА</h2>
+            <div class="form-group">
+                <label for="technique-name"><strong>Название техники:</strong></label>
+                <span id="technique-name" onclick="editField('technique-name')">Введите название</span>
+                <input id="technique-nameInput" type="text" class="form-control d-none editable-input" value="Введите название">
+            </div>
+            <div class="form-group">
+                <label for="technique-info"><strong>Информация о технике:</strong></label>
+                <span id="technique-info" onclick="editField('technique-info')">Вставьте основную информацию о технике,
+её концепцию, принцип и т.д
+</span>
+                <textarea id="technique-infoInput" class="form-control d-none editable-input" rows="4">Введите информацию</textarea>
+            </div>
+            <div class="form-group">
+                <label for="extension1"><strong>Расширение №1:</strong></label>
+                <span id="extension1" onclick="editField('extension1')">Информация о первом расширении
+ (Расширение – продвинутый прием
+вроде «Синего» Сатору Годжо)
+</span>
+                <textarea id="extension1Input" class="form-control d-none editable-input" rows="4">Введите расширение</textarea>
+            </div>
+            <div class="form-group">
+                <label for="extension2"><strong>Расширение №2:</strong></label>
+                <span id="extension2" onclick="editField('extension2')">нформация о первом расширении
+(Расширение – продвинутый прием
+вроде «Синего» Сатору Годжо)
+</span>
+                <textarea id="extension2Input" class="form-control d-none editable-input" rows="4">Введите расширение</textarea>
+            </div>
+            <div class="form-group">
+                <label for="technique-appearance"><strong>Внешность техники:</strong></label>
+                <span id="technique-appearance" onclick="editField('technique-appearance')">Введите внешность</span>
+                <textarea id="technique-appearanceInput" class="form-control d-none editable-input" rows="4">Введите внешность</textarea>
+            </div>
+            <div class="form-group">
+                <label for="opt-level"><strong>Уровень ОПТ:</strong></label>
+                <span id="opt-level" onclick="editField('opt-level')">Введите уровень</span>
+                <textarea id="opt-levelInput" class="form-control d-none editable-input" rows="4">Введите уровень</textarea>
+            </div>
+            <div class="form-group">
+                <label for="max"><strong>ОБЯЗАТЕЛЬНЫЕ КЛЯТВЫ:</strong></label>
+                <span id="max" onclick="editField('max')">Введите информацию</span>
+                <textarea id="maxInput" class="form-control d-none editable-input" rows="4">Введите информацию</textarea>
+            </div>
+        </section>
+
+        <section id="RT" class="mb-4">
+            <h2>05 | РАСШИРЕНИЕ ТЕРИТОРИЙ</h2>
+
+            <img id="character-rt-preview" src="path_to_image2.jpg" alt="Character Art" class="img-fluid mb-3">
+            <input type="file" class="form-control-file" id="character-rt-upload" accept="image/*">
+
+            <div class="form-group">
+                <label for="RT-name"><strong>Название РТ:</strong></label>
+                <span id="RT-name" onclick="editField('RT-name')">Введите название</span>
+                <input id="RT-nameInput" type="text" class="form-control d-none editable-input" value="Введите название">
+            </div>
+            <div class="form-group">
+                <label for="RT-style"><strong>Стиль РТ:</strong></label>
+                <span id="RT-style" onclick="editField('RT-style')">Информация о том, как выглядит РТ</span>
+                <textarea id="RT-styleInput" class="form-control d-none editable-input" rows="4">Введите информацию</textarea>
+            </div>
+            <div class="form-group">
+                <label for="RT-info"><strong>Информация о технике:</strong></label>
+                <span id="RT-info" onclick="editField('RT-info')">Информация о способностях РТ, в качестве чего выступает эффект
+гарантированного попадания. За сколько времени оно может быть
+открыто и сколько постов держится. (Также сюда вписывать мастерство
+РТ, когда оно появится или уже есть)</span>
+                <textarea id="RT-infoInput" class="form-control d-none editable-input" rows="4">Введите информацию</textarea>
+            </div>
+
+
+        </section>
+
+        <section id="background" class="mb-4">
+            <h2>06 | ПРЕДЫСТОРИЯ</h2>
+            <div class="form-group">
+                <label for="childhood"><strong>Детство:</strong></label>
+                <span id="childhood" onclick="editField('childhood')">Введите детали</span>
+                <textarea id="childhoodInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+            <div class="form-group">
+                <label for="youth"><strong>Юношество:</strong></label>
+                <span id="youth" onclick="editField('youth')">Введите детали</span>
+                <textarea id="youthInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+            <div class="form-group">
+                <label for="conclusion"><strong>Заключение:</strong></label>
+                <span id="conclusion" onclick="editField('conclusion')">Введите заключение</span>
+                <textarea id="conclusionInput" class="form-control d-none editable-input" rows="4">Введите заключение</textarea>
+            </div>
+        </section>
+
+        <section id="inventory" class="mb-4">
+            <h2>07 | ИНВЕНТАРЬ И БЫТ</h2>
+            <div class="form-group">
+                <label for="curseobject"><strong>ПРОКЛЯТОЕ ОРУЖИЕ :</strong></label>
+                <span id="curseobject" onclick="editField('curseobject')">Информация об имеющихся
+проклятых орудиях</span>
+                <textarea id="curseobjectInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+            <div class="form-group">
+                <label for="curseweapon"><strong>ПРОКЛЯТЫЕ АРТЕФАКТЫ:</strong></label>
+                <span id="curseweapon" onclick="editField('curseweapon')">Информация об имеющихся
+проклятых артефактах
+</span>
+                <textarea id="curseweaponInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+            <div class="form-group">
+                <label for="inventor"><strong>ДРУГОЕ:</strong></label>
+                <span id="inventor" onclick="editField('inventor')">Информация об обычном оружии, одежде, имуществе и т.д </span>
+                <textarea id="inventorInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+            <div class="form-group">
+                <label for="skill"><strong>УМЕНИЯ</strong></label>
+                <span id="skill" onclick="editField('skill')">Информация о том, что умеет ваш персонаж</span>
+                <textarea id="skillInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+            <div class="form-group">
+                <label for="profession"><strong>РОД ДЕЯТЕЛЬНОСТИ:</strong></label>
+                <span id="profession" onclick="editField('profession')">Информация о том, в чем хорошо разбирается ваш
+персонаж, его образование и т.п</span>
+                <textarea id="professionInput" class="form-control d-none editable-input" rows="4">Введите детали</textarea>
+            </div>
+
+        </section>
+
+        <section id="relationships" class="mb-4">
+            <h2>08 | ОТНОШЕНИЯ</h2>
+            <div class="form-group">
+                <label for="relationship1"><strong>Имя персонажа #1:</strong></label>
+                <span id="relationship1" onclick="editField('relationship1')">Введите имя</span>
+                <textarea id="relationship1Input" class="form-control d-none editable-input" rows="2">Введите имя</textarea>
+            </div>
+            <div class="form-group">
+                <label for="relationship2"><strong>Имя персонажа #2:</strong></label>
+                <span id="relationship2" onclick="editField('relationship2')">Введите имя</span>
+                <textarea id="relationship2Input" class="form-control d-none editable-input" rows="2">Введите имя</textarea>
+            </div>
+            <div class="form-group">
+                <label for="relationship3"><strong>Имя персонажа #3:</strong></label>
+                <span id="relationship3" onclick="editField('relationship3')">Введите имя</span>
+                <textarea id="relationship3Input" class="form-control d-none editable-input" rows="2">Введите имя</textarea>
+            </div>
+            <div class="form-group">
+                <label for="relationship4"><strong>Имя персонажа #4:</strong></label>
+                <span id="relationship4" onclick="editField('relationship4')">Введите имя</span>
+                <textarea id="relationship4Input" class="form-control d-none editable-input" rows="2">Введите имя</textarea>
+            </div>
+        </section>
+
+        <div class="text-center">
+            <button id="saveAsPdfBtn">Сохранить как PDF</button>
+
+            <button type="button" class="button" onclick="clearFormAndReload()">Очистить форму</button>
+        </div>
+    </form>
+</div>
+
+<footer class="text-center mt-4">
+    <p>ИНФО</p>
+    <p>Сайт создан на основе шаблона за авторством @kuller. Был предоставлен серверу JJK: CURSED ERA во временную эксплуатацию. Данный сайт является интеллектуальной собственностью пользователя @ikaris8876</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+
+    function clearFormAndReload() {
+        localStorage.clear();
+        const form = document.getElementById('character-form');
+        if (form) {
+            form.reset();
+        }
+        location.reload();
+    }
+
+    function editField(fieldId) {
+        const field = document.getElementById(fieldId);
+        const input = document.getElementById(fieldId + 'Input');
+
+        const defaultValue = fieldId === 'quote' ? '“Вставьте цитату”' : 'Введите значение';
+        if (field.innerHTML.trim() !== defaultValue) {
+            // Заменяем <br> на переносы строк для редактирования
+            input.value = field.innerHTML.replace(/<br>/g, '\n').trim();
+        }
+
+        field.classList.add('d-none');
+        input.classList.remove('d-none');
+        input.focus();
+    }
+
+
+    function saveField(fieldId) {
+        const field = document.getElementById(fieldId);
+        const input = document.getElementById(fieldId + 'Input');
+
+        const defaultValue = fieldId === 'quote' ? '“Вставьте цитату”' : 'Введите значение';
+        field.innerText = input.value.trim() || defaultValue;
+        field.classList.remove('d-none');
+        input.classList.add('d-none');
+    }
+
+
+    document.querySelectorAll('.editable-input').forEach(input => {
+        input.addEventListener('blur', () => {
+            const fieldId = input.id.replace('Input', '');
+            saveField(fieldId);
+        });
+    });
+
+
+    document.getElementById('character-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        try {
+            const response = await fetch('/submit', {
+                method: 'POST',
+                body: formData
+            });
+            if (!response.ok) throw new Error('Network response was not ok');
+            const result = await response.json();
+            alert(result.message);
+        } catch (error) {
+            alert('Сохранение успешно');
+        }
+    });
+
+
+
+    document.getElementById('saveAsPdfBtn').addEventListener('click', function () {
+        var width = document.documentElement.scrollWidth;
+        var height = document.documentElement.scrollHeight;
+
+        html2pdf().from(document.body).set({
+            margin: [0, 0, 0, 0],
+            filename: 'output.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'px', format: [width, height], orientation: 'portrait' }
+        }).save();
+    });
+
+
+
+
+
+
+    document.addEventListener('input', function (event) {
+        if (event.target.tagName === 'TEXTAREA') {
+            // Сбрасываем высоту для корректного вычисления
+            event.target.style.height = 'auto';
+            // Устанавливаем высоту равной высоте контента
+            event.target.style.height = `${event.target.scrollHeight}px`;
+        }
+    });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const fields = [
+            'quote', 'name', 'age', 'hobby', 'nickname', 'like', 'appearance-age',
+            'rank', 'gender', 'birthdate', 'character', 'preferences', 'fears',
+            'height-weight', 'body-type', 'art-details', 'technique-name',
+            'technique-info', 'extension1', 'extension2', 'technique-appearance',
+            'opt-level', 'max', 'RT-name', 'RT-style', 'RT-info', 'childhood',
+            'youth', 'conclusion', 'curseobject', 'curseweapon', 'inventor',
+            'skill', 'profession', 'relationship1', 'relationship2',
+            'relationship3', 'relationship4'
+        ];
+
+        function saveData() {
+            fields.forEach(field => {
+                const input = document.getElementById(field + 'Input');
+                if (input) {
+                    localStorage.setItem(field, input.value);
+                }
+            });
+        }
+
+        function loadData() {
+            fields.forEach(field => {
+                const value = localStorage.getItem(field) || '';
+                const span = document.getElementById(field);
+                const input = document.getElementById(field + 'Input');
+
+                if (input) {
+                    input.value = value;
+                    span.innerText = value || (field === 'quote' ? '“Вставьте цитату”' : 'Введите значение');
+                }
+            });
+        }
+
+        fields.forEach(field => {
+            const input = document.getElementById(field + 'Input');
+            if (input) {
+                input.addEventListener('input', saveData);
+                input.addEventListener('blur', () => saveField(field));
+            }
+        });
+
+        loadData();
+
+        function editField(fieldId) {
+            const field = document.getElementById(fieldId);
+            const input = document.getElementById(fieldId + 'Input');
+
+            const defaultValue = fieldId === 'quote' ? '“Вставьте цитату”' : 'Введите значение';
+            if (field.innerHTML.trim() !== defaultValue) {
+                input.value = field.innerHTML.trim();
+            }
+
+            field.classList.add('d-none');
+            input.classList.remove('d-none');
+            input.focus();
+        }
+
+        function saveField(fieldId) {
+            const field = document.getElementById(fieldId);
+            const input = document.getElementById(fieldId + 'Input');
+
+            const defaultValue = fieldId === 'quote' ? '“Вставьте цитату”' : 'Введите значение';
+            field.innerText = input.value.trim() || defaultValue;
+            field.classList.remove('d-none');
+            input.classList.add('d-none');
+        }
+
+        document.querySelectorAll('.editable-input').forEach(input => {
+            input.addEventListener('blur', () => {
+                const fieldId = input.id.replace('Input', '');
+                saveField(fieldId);
+            });
+        });
+
+        const characterArtPreview = document.getElementById('character-art-preview');
+        const characterArtUpload = document.getElementById('character-art-upload');
+
+        characterArtPreview.addEventListener('click', () => {
+            characterArtUpload.click();
+        });
+
+        characterArtUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                characterArtPreview.src = event.target.result;
+                localStorage.setItem('character-art', event.target.result);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const characterRTPreview = document.getElementById('character-rt-preview');
+        const characterRTUpload = document.getElementById('character-rt-upload');
+
+        characterRTPreview.addEventListener('click', () => {
+            characterRTUpload.click();
+        });
+
+        characterRTUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (event) => {
+                characterRTPreview.src = event.target.result;
+                localStorage.setItem('character-rt', event.target.result);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const savedCharacterArt = localStorage.getItem('character-art');
+        if (savedCharacterArt) {
+            characterArtPreview.src = savedCharacterArt;
+        }
+
+        const savedCharacterRT = localStorage.getItem('character-rt');
+        if (savedCharacterRT) {
+            characterRTPreview.src = savedCharacterRT;
+        }
+    });
+
+
+</script>
+
+</body>
+</html>
